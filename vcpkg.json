@@ -1,0 +1,13 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+  "name": "list",
+  "version": "1.0.0",
+  "description": "My List with GoogleTest",
+  "builtin-baseline": "e3ed41868d5034bc608eaaa58383cd6ecdbb5ffb",
+  "dependencies": [
+    {
+      "name": "gtest",
+      "version>=": "1.14.0"
+    }
+  ]
+}

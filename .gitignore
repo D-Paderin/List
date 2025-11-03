@@ -1,0 +1,83 @@
+# Build directories
+build/
+out/
+bin/
+bin-int/
+*.exe
+*.out
+*.app
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+!*.cmake.in
+CMakeUserPresets.json
+*.user
+
+# vcpkg
+vcpkg_installed/
+vcpkg_installed.x64/
+vcpkg_installed.x86/
+vcpkg/buildtrees/
+vcpkg/packages/
+vcpkg/downloads/
+vcpkg/.vcpkg-root
+
+# Compiler outputs
+*.o
+*.obj
+*.a
+*.lib
+*.dll
+*.so
+*.dylib
+*.ilk
+*.pdb
+*.exp
+
+# IDE files
+.vs/
+.vscode/
+*.swp
+*.swo
+*~
+*.suo
+*.user
+*.ncb
+*.sdf
+*.opensdf
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+
+# Coverage reports
+*.gcda
+*.gcno
+*.gcov
+coverage/
+
+# Testing
+gtest/
+gmock/
+*.xml
+
+# Dependencies
+deps/
+third_party/
+
+# Documentation
+docs/_build/
