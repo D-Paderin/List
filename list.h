@@ -9,8 +9,7 @@ private:
 	// Узел списка
 	struct Node
 	{
-
-		Node(double value, Node *prev, Node *next) noexcept;
+		//Node(double value, Node *prev, Node *next) noexcept; -> Заменено на агрегатную инициализацию
 
 		double value; // Значение узла
 		Node *prev; // Указатель на предыдущий узел

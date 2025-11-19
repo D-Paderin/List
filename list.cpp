@@ -1,17 +1,15 @@
 #include <stdexcept>
+#include <memory>
 
 #include "list.h"
 
-List::Node::Node(double value_, Node *prev_, Node *next_) noexcept : value(value_), prev(prev_), next(next_) {};
-
 void List::CreateFirstNode(double value)
 {
-    Node* new_n = new Node (value, nullptr, nullptr);
+    Node* new_n = new Node {value, nullptr, nullptr};
     this->last = new_n;
     this->first = new_n;
 
     this->cached_size = 1;
-
 }
 
 void List::CheckIter(const Iterator it)
@@ -56,13 +54,13 @@ void List::push_before(Iterator it, double value)
 
     if (it.n == this->first) 
     {
-        Node* new_n = new Node(value, nullptr , it.n);
+        Node* new_n = new Node{value, nullptr , it.n};
         this->first->prev = new_n;
         this->first = new_n;
     }
     else
     {
-        Node* new_n = new Node (value, it.n->prev, it.n);
+        Node* new_n = new Node {value, it.n->prev, it.n};
         it.n->prev->next = new_n;
         it.n->prev = new_n;
     }
@@ -75,13 +73,13 @@ void List::push_after(Iterator it, double value)
 
     if (it.n == this->last) 
     {
-        Node* new_n = new Node (value, it.n, nullptr);
+        Node* new_n = new Node {value, it.n, nullptr};
         this->last->next = new_n;
         this->last = new_n;
     }
     else
     {
-        Node* new_n = new Node (value, it.n, it.n->next);
+        Node* new_n = new Node {value, it.n, it.n->next};
         it.n->next->prev = new_n;
         it.n->next = new_n;
     }
@@ -89,38 +87,16 @@ void List::push_after(Iterator it, double value)
 }
 
 void List::pop(Iterator it)
+
 {
-    this->CheckIter(it);
-    if (it.n == this->first) 
-    {
-        this->first = this->first->next;
-        if (this->first)
-        {
-            this->first->prev = nullptr;
-        }
-        else 
-        {
-            this->first = nullptr;
-        }
-    }
-    else if (it.n == this->last) 
-    {
-        this->last = this->last->prev;
-        if (this->last)
-        {
-            this->last->next = nullptr;
-        } 
-        else
-        {
-            this->first = nullptr;
-        }
-    }
-    else 
-    {
-        it.n->prev->next = it.n->next;
-        it.n->next->prev = it.n->prev;
-    }
-    this->cached_size -= 1;
+    this->CheckIter(it);  
+    
+    if (it.n != this->first) it.n->prev->next = it.n->next; //Итератор указывает не на первую ноду списка
+    else this->first = it.n->next;                          //Итератор указывает на первую ноду списка
+    if (it.n != this->last) it.n->next->prev = it.n->prev;  //Итератор указывает не на поcледнюю ноду списка
+    else this->last = it.n->prev;                           //Итератор указывает на поcледнюю ноду списка
+
+    this->cached_size--;
     delete it.n;
 }
 
@@ -132,8 +108,7 @@ void List::push_back(double value)
     }
     else
     {
-        Iterator it(this, this->last);
-        this->push_after(it, value);
+        this->push_after(Iterator(this, this->last), value);
     }
 }
 
@@ -145,41 +120,18 @@ void List::push_front(double value)
     }
     else
     {
-        Iterator it(this, this->first);
-        this->push_before(it, value);
+        this->push_before(Iterator(this, this->first), value);
     }
 }
 
 void List::pop_back()
 {
-    if (this->size() == 0)
-    {
-        throw std::runtime_error("Попытка удаления элемента из пустого списка!");
-    }
-    if (this->last) {
-        Iterator it(this, this->last);
-        this->pop(it);
-    }
-    else 
-    {
-        throw std::runtime_error("Последний элемент списка пустой!");
-    }
+    this->pop(Iterator(this, this->last));
 }
 
 void List::pop_front()
 {
-    if (this->size() == 0)
-    {
-        throw std::runtime_error("Попытка удаления элемента из пустого списка!");
-    }
-    if (this->first) {
-        Iterator it(this, this->first);
-        this->pop(it);
-    }
-    else 
-    {
-        throw std::runtime_error("Первый элемент списка пустой!");
-    }
+        this->pop(Iterator(this, this->first));
 }
 
 void List::clear()
